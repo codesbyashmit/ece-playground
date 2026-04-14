@@ -54,12 +54,9 @@ const Wave = ({ type, color, freq, visible }: { type: 'E' | 'B', color: string, 
 
   return (
     <group>
-      <line ref={lineRef} geometry={lineGeo} frustumCulled={false}>
-        <lineBasicMaterial color={color} linewidth={2} />
-      </line>
-      <lineSegments ref={vectorsRef} geometry={vectorGeo} frustumCulled={false}>
-        <lineBasicMaterial color={color} transparent opacity={0.3} />
-      </lineSegments>
+      {/* Using primitive to avoid JSX confusing <line> with SVG's line element */}
+      <primitive object={new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color, linewidth: 2 }))} ref={lineRef} frustumCulled={false} />
+      <primitive object={new THREE.LineSegments(vectorGeo, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.3 }))} ref={vectorsRef} frustumCulled={false} />
     </group>
   );
 };
@@ -72,10 +69,16 @@ export default function EMWave() {
   const c = 299792458;
   const wavelengthNm = ((c / (freq * 1e12)) * 1e9).toLocaleString(undefined, { maximumFractionDigits: 0 });
 
+  const axisGeo = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array([-30, 0, 0, 30, 0, 0]), 3));
+    return geo;
+  }, []);
+
+  const axisMat = useMemo(() => new THREE.LineBasicMaterial({ color: "#333333" }), []);
+
   return (
     <div className="flex flex-col h-full gap-6">
-
-      {/* HEADER & TELEMETRY */}
       <div className="flex justify-between items-end border-b border-neutral-800 pb-4">
         <div>
           <h2 className="text-2xl font-bold text-white uppercase tracking-wider">Electromagnetic Propagation</h2>
@@ -88,6 +91,7 @@ export default function EMWave() {
           <div className="text-neutral-400">λ: ~{wavelengthNm} nm</div>
         </div>
       </div>
+
       <div className="relative flex-1 min-h-[450px] border border-neutral-800 bg-[#050505] rounded-sm shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
         <div className="absolute inset-0">
           <Canvas
@@ -103,19 +107,7 @@ export default function EMWave() {
               maxPolarAngle={Math.PI / 2 + 0.1}
               minPolarAngle={0.1}
             />
-
-            {/* Main Axis Line */}
-            <line frustumCulled={false}>
-              <bufferGeometry attach="geometry">
-                <bufferAttribute
-                  attach="attributes-position"
-                  count={2}
-                  array={new Float32Array([-30, 0, 0, 30, 0, 0])}
-                  itemSize={3}
-                />
-              </bufferGeometry>
-              <lineBasicMaterial attach="material" color="#333333" />
-            </line>
+            <primitive object={new THREE.Line(axisGeo, axisMat)} frustumCulled={false} />
 
             <Wave type="E" color="#00f5d4" freq={freq} visible={showE} />
             <Wave type="B" color="#f15bb5" freq={freq} visible={showB} />
@@ -126,8 +118,6 @@ export default function EMWave() {
           </Canvas>
         </div>
       </div>
-
-      {/* CONTROLS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#111115] border border-neutral-800 p-6 rounded-sm">
         <div className="flex flex-col gap-4">
           <div className="flex justify-between text-xs text-neutral-400 uppercase font-semibold tracking-widest">
