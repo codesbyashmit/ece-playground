@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@keyframes scan {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(500px); }
+}
+
+
+@keyframes flow {
+  from { stroke-dashoffset: 25; }
+  to { stroke-dashoffset: 0; }
+}

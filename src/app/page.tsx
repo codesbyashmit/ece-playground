@@ -4,17 +4,17 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Waves, Cpu, Zap, Scan } from "lucide-react";
 import Oscilloscope from "../components/modules/Oscilloscope";
-// import FourierVisualizer from "@/components/modules/FourierVisualizer";
-// import LogicGates from "@/components/modules/LogicGates";
+import FourierVisualizer from "@/components/modules/FourierVisualizer";
+import CircuitSimulator from "@/components/modules/CircuitSimulator";
 import EMWave from "@/components/modules/EMWave";
-// import ComponentScanner from "@/components/modules/ComponentScanner";
+import ComponentScanner from "@/components/modules/ComponentScanner";
 
 const MODULES = [
   { id: "scope", name: "Oscilloscope", icon: Activity, component: Oscilloscope },
-  { id: "fourier", name: "Fourier Transform", icon: Waves, component: () => <div>Fourier Placeholder</div> },
-  { id: "logic", name: "Logic Gates", icon: Cpu, component: () => <div>Logic Gates Placeholder</div> },
+  { id: "fourier", name: "Fourier Transform", icon: Waves, component: FourierVisualizer },
+  { id: "circuit", name: "Circuit Simulator", icon: Cpu, component: CircuitSimulator },
   { id: "em", name: "EM Propagation", icon: Zap, component: EMWave },
-  { id: "ai", name: "AI Scanner", icon: Scan, component: () => <div>AI Scanner Placeholder</div> },
+  { id: "ai", name: "AI Scanner", icon: Scan, component: ComponentScanner },
 ];
 
 export default function ECELab() {
@@ -28,7 +28,7 @@ export default function ECELab() {
         <div className="flex items-center gap-3">
           <Zap className="text-cyan-400 h-6 w-6" />
           <div>
-            <h1 className="font-bold text-xl tracking-tight text-white uppercase">ECE_Playground</h1>
+            <h1 className="font-bold text-xl tracking-tight text-white uppercase">Electronics Lab</h1>
             <p className="text-xs text-neutral-500 hidden sm:block">Visualise. Simulate. Understand.</p>
           </div>
         </div>
