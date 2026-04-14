@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Waves, Cpu, Zap, Scan } from "lucide-react";
-import Oscilloscope from "@/components/modules/Oscilloscope";
+import Oscilloscope from "../components/modules/Oscilloscope";
 // import FourierVisualizer from "@/components/modules/FourierVisualizer";
 // import LogicGates from "@/components/modules/LogicGates";
-// import EMWave from "@/components/modules/EMWave";
+import EMWave from "@/components/modules/EMWave";
 // import ComponentScanner from "@/components/modules/ComponentScanner";
 
 const MODULES = [
   { id: "scope", name: "Oscilloscope", icon: Activity, component: Oscilloscope },
   { id: "fourier", name: "Fourier Transform", icon: Waves, component: () => <div>Fourier Placeholder</div> },
   { id: "logic", name: "Logic Gates", icon: Cpu, component: () => <div>Logic Gates Placeholder</div> },
-  { id: "em", name: "EM Propagation", icon: Zap, component: () => <div>EM Wave Placeholder</div> },
+  { id: "em", name: "EM Propagation", icon: Zap, component: EMWave },
   { id: "ai", name: "AI Scanner", icon: Scan, component: () => <div>AI Scanner Placeholder</div> },
 ];
 
