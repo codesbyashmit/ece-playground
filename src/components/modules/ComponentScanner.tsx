@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import { UploadCloud, ScanLine, AlertCircle } from "lucide-react";
-
 export default function ComponentScanner() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
@@ -41,8 +40,6 @@ export default function ComponentScanner() {
       const data = await response.json();
 
       if (!response.ok) throw new Error(data.error || "Failed to scan");
-
-      // Simple typewriter effect simulation
       simulateTypewriter(data.result);
     } catch (err: any) {
       setError(err.message);
@@ -59,7 +56,7 @@ export default function ComponentScanner() {
       setResult((prev) => prev + text.charAt(i));
       i++;
       if (i >= text.length) clearInterval(interval);
-    }, 15); // Adjust typing speed here
+    }, 15);
   };
 
   return (
@@ -73,15 +70,13 @@ export default function ComponentScanner() {
         </div>
         <div className="flex flex-col items-end gap-1 font-mono text-xs text-right">
           <div className="text-white mb-1 uppercase tracking-widest text-[10px]">Neural Engine</div>
-          <div className="text-cyan-400">Model: Gemini 1.5 Flash</div>
+          <div className="text-cyan-400">Model: Stable </div>
           <div className="text-neutral-400">Status: {isScanning ? "PROCESSING" : "ONLINE"}</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 min-h-[450px]">
-        
-        {/* LEFT COLUMN: UPLOAD / CAMERA ZONE */}
-        <div 
+                <div 
           className="border border-neutral-800 bg-[#050505] rounded-sm shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col relative overflow-hidden group cursor-pointer"
           onClick={() => fileInputRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
@@ -100,11 +95,8 @@ export default function ComponentScanner() {
           
           {imagePreview ? (
             <div className="relative w-full h-full min-h-[300px]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={imagePreview} alt="Component preview" className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" />
-              
-              {/* Overlay Scanlines */}
-              {isScanning && (
+                            {isScanning && (
                 <div className="absolute inset-0 bg-cyan-400/20 mix-blend-overlay">
                   <div className="w-full h-2 bg-cyan-400/50 blur-[2px] animate-[scan_2s_ease-in-out_infinite]" />
                 </div>
@@ -119,8 +111,6 @@ export default function ComponentScanner() {
             </div>
           )}
         </div>
-
-        {/* RIGHT COLUMN: TERMINAL READOUT */}
         <div className="border border-neutral-800 bg-[#0a0a0f] rounded-sm p-6 font-mono relative overflow-hidden">
           
           <div className="flex items-center gap-2 border-b border-neutral-800 pb-2 mb-4 text-xs tracking-widest text-neutral-500 uppercase">
